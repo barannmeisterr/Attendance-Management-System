@@ -1,0 +1,16 @@
+1,20-2-2024,Tuesday,H,2
+1,23-2-2024,Friday,H,1
+2,27-2-2024,Tuesday,H,2
+2,1-3-2024,Friday,H,1
+3,5-3-2024,Tuesday,A,2
+3,8-3-2024,Friday,A,1
+4,12-3-2024,Tuesday,A,2
+4,15-3-2024,Friday,A,1
+5,19-3-2024,Tuesday,A,2
+5,22-3-2024,Friday,A,1
+6,26-3-2024,Tuesday,P,2
+6,29-3-2024,Friday,C,1
+7,2-4-2024,Tuesday,P,2
+7,5-4-2024,Friday,C,1
+8,9-4-2024,Tuesday,H,2
+8,12-4-2024,Friday,H,1
