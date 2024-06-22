@@ -22,6 +22,7 @@ List<Days> lectureDays;
 String startDate,endDate;
 double attendanceRate;
 List<AttendanceRecord> attendanceRecords;
+List<AttendanceRecord>tedu400;
 public Attendance(String startDate,String endDate,ArrayList<Days> lectureDays) {
 	this.startDate=startDate;
 	this.endDate=endDate;
@@ -52,11 +53,15 @@ public Attendance(String startDate,String endDate,ArrayList<Days> lectureDays) {
 	}
 this.attendanceRate=0.0;
 attendanceRecords = new ArrayList<>();
+tedu400=new ArrayList<>();
 }
+
 public void addAttendanceRecord(AttendanceRecord record) {
     attendanceRecords.add(record);
 }
-
+public void addAttendanceRecordTedu400(AttendanceRecord t400) {
+	tedu400.add(t400);
+}
 
 public int getNumOfOnline() {
 	return numOfOnline;
