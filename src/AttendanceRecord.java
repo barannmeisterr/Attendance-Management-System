@@ -9,14 +9,52 @@ Description: AttendenceRecord class helps to write attendance records to the txt
     String status;
     int duration;
     int week;
+    String seminarName,location,time,speaker;
     public AttendanceRecord(int week,String date, String day, String status, int duration) {
-        this.week=week;
+       // Constructor for compulsory courses
+	this.week=week;
     	this.date = date;
         this.day = day;
         this.status = status;
         this.duration = duration;
     }
-    public int getWeek() {
+    public AttendanceRecord(String date,String seminarName,String day,String speaker,String location,String time) {
+    	//Constructor for seminar TEDU 400 course
+    	this.date = date;
+        this.seminarName=seminarName;
+    	this.day = day;
+       this.speaker=speaker;
+       this.location=location;
+       this.time=time;
+    
+    }
+    
+
+	public String getSeminarName() {
+		return seminarName;
+	}
+	public void setSeminarName(String seminarName) {
+		this.seminarName = seminarName;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getSpeaker() {
+		return speaker;
+	}
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
+	}
+	public int getWeek() {
 		return week;
 	}
 	public void setWeek(int week) {
