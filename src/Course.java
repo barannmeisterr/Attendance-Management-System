@@ -73,12 +73,47 @@ saveAttendance(weekid, date, day, status, duration);
 // Add the attendance record to the Attendance object
 attendance.addAttendanceRecord(new AttendanceRecord(weekid,date, day.getDayName(), status, duration));
 }
+public void addAttendance400(String date,String seminarName,Days day,String speaker,String location,String time) {
+	saveAttendanceTedu400(date,seminarName,day,speaker,location,time);
+attendance.addAttendanceRecordTedu400(new AttendanceRecord(date,seminarName,day.getDayName(),speaker,location,time));
+}
+public void printTedu400Records()throws IOException{
+	String fileName = getCourseName()+"attendance.txt";
+	String filePath = "src/resources/"+fileName;
+	try {
+		System.out.printf("%-15s %-100s %-15s %-30s %-15s %-10s%n", "Date", "Seminar Name", "Day", "Speaker", "Location","Time");		
+		Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+            String line = sc.nextLine();
+            String[] record = line.split(",");
+            if (record.length >= 5) {              
+                String date=record[0].trim();
+                String seminarName=record[1].trim();
+                String day=record[2].trim();
+                String speaker=record[3].trim();
+                String location=record[4].trim();
+                String time = record[5].trim();
+
+            System.out.printf("%-15s %-100s %-15s %-30s %-15s %-10s%n",date,seminarName,day,speaker,location,time); 
+                 
+            }
+        }
+   
+		}catch (FileNotFoundException e) {
+            e.printStackTrace();
+    	}
+	
+	
+	
+}
+
 public void printRecords()throws IOException {
 //prints attendance records week by week from week 1 to the current week.
 	
 	String statusPrefix;
 	String fileName = getCourseName()+"attendance.txt";
 	String filePath = "src/resources/"+fileName;
+
 	System.out.printf("%-10s %-15s %-15s %-30s %-10s%n", "Week", "Date", "Day", "Attendance Status", "Duration");
 	try {
         // read datas from file
@@ -117,9 +152,57 @@ public void printRecords()throws IOException {
             
             }
         }
-        }catch (FileNotFoundException e) {
+    
+        
+        
+	}catch (FileNotFoundException e) {
             e.printStackTrace();
     	}
+	
+		
+	}	
+		
+	
+	
+
+	
+	
+public void readTedu400()throws IOException{
+	int w = 0;
+	int present=attendance.getNumOfPresent();
+	int totalHour=attendance.getNumOfTotalSeasion();
+	String fileName = getCourseName()+"attendance.txt";
+	String filePath = "src/resources/"+fileName;
+	try {
+        // read datas from file
+        Scanner sc = new Scanner(new File(filePath));
+        while (sc.hasNext()) {
+        	String line = sc.nextLine();
+            String[] record = line.split(",");
+            if (record.length >= 4) {
+        	
+        	
+        	present=present+1;
+        	attendance.setNumOfPresent(present);
+        	totalHour=totalHour+1;
+        	attendance.setNumOfTotalSeasion(totalHour);
+             attendance.setNumOfAbsent(0);
+             attendance.setNumOfCancelled(0);
+             attendance.setNumOfOnline(0);
+             attendance.setNumOfHoliday(0);
+             attendance.setWeekID(w);
+             //In order to calculate attendance report statistics week of record , attendance status of record and attendance status
+      //of record are required.      	
+   	
+            	double rate =attendance.attendanceRate(present, totalHour);
+            attendance.setAttendanceRate(rate);
+        w++;    
+            }
+            }            
+}
+	catch (FileNotFoundException e) {
+        e.printStackTrace();
+	}
 }
 public void readAttendanceFromFile()throws IOException {
 /*	
@@ -187,6 +270,11 @@ and online then it doesnt make sense to count these hours as taken total course 
         e.printStackTrace();
 	}
 }
+public void saveAttendanceTedu400(String date,String seminarName,Days day,String speaker,String location,String time) {
+	AttendanceRecord record = new AttendanceRecord(date,seminarName, day.getDayName(),speaker,location,time);
+	 attendance.addAttendanceRecordTedu400(record);
+	 writeAttendanceForTedu400(record);
+}
 public void saveAttendance(int weekid, String date, Days day, String status, int duration) {
     // Create a new attendance record
     AttendanceRecord record = new AttendanceRecord(weekid,date, day.getDayName(), status, duration);
@@ -195,18 +283,34 @@ public void saveAttendance(int weekid, String date, Days day, String status, int
     // Write attendance record to the txt file
     writeAttendanceToFile(record);
 }
+public void writeAttendanceForTedu400(AttendanceRecord record) {
+	String fileName = getCourseName()+"attendance.txt";
+    String filePath = Paths.get("src", "resources", fileName).toString();
+	try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+	        // Write attendance record to file
+	      
+	    	   writer.write(record.getDate()+","+record.getSeminarName()+","+record.getDay()+","+ record.getSpeaker()+","+record.getLocation()+","+record.getTime());
+	       writer.newLine();
+	       }catch (IOException e) {
+	    	   System.err.println("An error occurred while writing to the file: " + e.getMessage());
+	       }	
+}
 public void writeAttendanceToFile(AttendanceRecord record) {
 	String fileName = getCourseName()+"attendance.txt";
     String filePath = Paths.get("src", "resources", fileName).toString();
-	
-	try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-	        // Write attendance record to file
-	        writer.write(record.getWeek()+","+record.getDate()+","+record.getDay()+","+ record.getStatus()+","+record.getDuration());
+    	try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+		writer.write(record.getWeek()+","+record.getDate()+","+record.getDay()+","+ record.getStatus()+","+record.getDuration());
 	        writer.newLine(); // Add a new line after each record
-	    } catch (IOException e) {
+	       }
+	        catch (IOException e) {
 	        System.err.println("An error occurred while writing to the file: " + e.getMessage());
-	    }
+	       }
+	       
 	}
+
+
+
+
 public double maxPossibleAttendanceRate() {
 /*	
 The maxPossibleAttendanceRate method calculates the maximum possible attendance rate that a 
@@ -229,13 +333,15 @@ return ((remainedPossiblePresentStatus + present) / (currTakenCourseHour +  rema
 public String toString() {
 //attendance report of the course
 	
-	String mandatoryOrNotMandatory="";
+	String mandatoryOrNotMandatory="";	
 	boolean attendanceReq=isAttendanceMandatory();
 	if(attendanceReq) {
 		mandatoryOrNotMandatory=mandatoryOrNotMandatory+"Attendance is Mandatory";	
 	}else {
 		mandatoryOrNotMandatory=mandatoryOrNotMandatory+"Attendance is NOT mandatory, but strongly recommended.";
 	}
+	System.out.print("----------------------------------------------------------------------------------------------------\n");
+	if(!getCourseName().equalsIgnoreCase("TEDU 400")) {
 	DecimalFormat df = new DecimalFormat("#.##");
 	return" Course Name: " + getCourseName() +"\n"+
 mandatoryOrNotMandatory+"\n"
@@ -252,5 +358,14 @@ mandatoryOrNotMandatory+"\n"
 +"Remained Week To Lectures End: "+ (getAttendance().getTotalWeekOfSchedule()-getAttendance().getWeekID())+"\n"
 +"Maximum Possible Attendance: %"+df.format(maxPossibleAttendanceRate())+"\n"
 +"----------------------------------------------------------------------------------------------------\n";
+	}
+	return" Course Name: " + getCourseName() +"\n"+
+	"Required Seminar Participation To Pass TEDU 400:"+getAttendance().getTotalWeekOfSchedule()+"\n"
+	+"------------------------------------------------------------------------------------------------------\n"	
+	+"Total Seminar Participation For TEDU 400: "+getAttendance().getNumOfPresent()+"\n"
+	+"Remained Participation To Pass TEDU 400: "+ (getAttendance().getTotalWeekOfSchedule()-getAttendance().getNumOfPresent())+"\n"
+	+"------------------------------------------------------------------------------------------------------\n";
+	
 }
+
 }
