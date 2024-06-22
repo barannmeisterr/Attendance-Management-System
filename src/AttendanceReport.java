@@ -36,21 +36,15 @@ the AttendanceReport class facilitates the efficient management and tracking of 
  contributing to effective monitoring of student attendance.
 
 */	
-	public static void main(String[] args)throws IOException {
+		public static void main(String[] args)throws IOException {
 		// TODO Auto-generated method stub
-	System.out.println("==============================================================");
-	System.out.println("|Write add to add attendance to the specific course          |");
-	System.out.println("|Write report to see attendance report of the specific course|");
-	System.out.println("|Write exit to terminate the program                         |");
-    System.out.println("==============================================================");		
-	Scanner sc = new Scanner(System.in);
-String command = sc.nextLine();
-	System.out.println("");
+	Scanner sc=new Scanner(System.in);
 	 String moreAttendance;
 	String courseName;
 	Days day;
 	int week,duration;
 	String date,dayName,status;
+	String seminarName,speaker,location,time;
         //list of lecture days.there is no lecture on weekend
         ArrayList<Days> lectureDays = new ArrayList<>();
         lectureDays.add(Days.MONDAY);
@@ -62,6 +56,7 @@ String command = sc.nextLine();
         Attendance a407 = new Attendance("19-2-2024", "31-5-2024", lectureDays);
         Attendance a423 = new Attendance("19-2-2024", "31-5-2024", lectureDays);
         Attendance c326 = new Attendance("19-2-2024", "31-5-2024", lectureDays);
+        Attendance t400 = new Attendance("19-2-2024", "26-4-2024",lectureDays);
         //Course instances
         Course ada407 = new Course("ADA 407", true,3);
         ada407.setAttendance(a407);        
@@ -69,119 +64,145 @@ String command = sc.nextLine();
         ada423.setAttendance(a423);        
         Course cmpe326=new Course("CMPE 326",true,3);
         cmpe326.setAttendance(c326);                
-        switch (command) {
-    	case "add":
-    	System.out.println("Which Course You Want To Add Attendance ?");
-    	 courseName=sc.nextLine();
-    	System.out.println("");
-    	switch(courseName) {   
-    	case "ada 407":
-    		while (true) {
-    		System.out.println("Enter attendance details " );
-            System.out.println();
-            System.out.println("Enter Week");
-             week=sc.nextInt();
-            System.out.println("Enter date (e.g., 20-2-2024):");
-             date = sc.next();
-            System.out.println("Enter day (e.g., TUESDAY):");
-             dayName = sc.next();
-             day = Days.valueOf(dayName); //Convert input day name to enum 
-            System.out.println("Enter status (H/A/C/P):");
-            status = sc.next();
-            System.out.println("Enter duration:");
-             duration = sc.nextInt();           
-            ada407.addAttendance(week, date, day, status, duration);
-            System.out.println("Do you want to add more attendance for ADA 407? (yes/no)");
-           moreAttendance = sc.next().toLowerCase();
-            if (!moreAttendance.equalsIgnoreCase("yes")) {
-                break;
+        Course tedu400=new Course("TEDU 400",true,1);
+        tedu400.setAttendance(t400);
+        while (true) {
+            System.out.println("==============================================================");
+            System.out.println("|Write add to add attendance to the specific course          |");
+            System.out.println("|Write report to see attendance report of the specific course|");
+            System.out.println("|Write exit to terminate the program                         |");
+            System.out.println("==============================================================");
+            
+            String command = sc.nextLine().trim().toLowerCase(); // Read and trim input
+            
+            switch (command) {
+                case "add":
+                    System.out.println("Which Course You Want To Add Attendance ?");
+                     courseName = sc.nextLine().trim().toLowerCase(); // Read and trim input
+                    
+                    switch (courseName) {
+                        case "ada 423":
+                        	System.out.println("Enter attendance details " );
+                            System.out.println();
+                            System.out.println("Enter Week");
+                             week=sc.nextInt();
+                            System.out.println("Enter date (e.g., 20-2-2024):");
+                             date = sc.next();
+                            System.out.println("Enter day (e.g., TUESDAY):");
+                             dayName = sc.next();
+                            day = Days.valueOf(dayName); //Convert input day name to enum 
+                            System.out.println("Enter status (H/A/C/P):");
+                            status = sc.next();
+                            System.out.println("Enter duration:");
+                             duration = sc.nextInt();           
+                            ada423.addAttendance(week, date, day, status, duration);
+                           
+                          
+                        
+                       
+                            break;
+                        case "tedu 400":
+                        	System.out.println("Enter attendance details " );
+                            System.out.println();
+                          
+                            System.out.println("Enter date (e.g., 18-4-2024):");
+                              date = sc.nextLine();
+                             System.out.println("Enter seminar title:");
+                             seminarName=sc.nextLine();
+                             
+                             
+                             System.out.println("Enter day (e.g., TUESDAY):");
+                             dayName = sc.nextLine();
+                             day = Days.valueOf(dayName);
+                              
+                            System.out.println("Enter speaker");
+                             speaker = sc.nextLine();
+                            System.out.println("Enter location:");
+                              location = sc.nextLine();           
+                             System.out.println("Enter time:");
+                             time = sc.nextLine();    
+                             
+                             
+                             
+                             tedu400.addAttendance400(date, seminarName, day, speaker,location,time);          
+                            break;
+                        case "ada 407":
+                        	System.out.println("Enter attendance details " );
+                            System.out.println();
+                            System.out.println("Enter Week");
+                             week=sc.nextInt();
+                            System.out.println("Enter date (e.g., 20-2-2024):");
+                             date = sc.next();
+                            System.out.println("Enter day (e.g., TUESDAY):");
+                             dayName = sc.next();
+                             day = Days.valueOf(dayName); //Convert input day name to enum 
+                            System.out.println("Enter status (H/A/C/P):");
+                            status = sc.next();
+                            System.out.println("Enter duration:");
+                             duration = sc.nextInt();           
+                            ada407.addAttendance(week, date, day, status, duration);
+                            break;
+                        case "cmpe 326":
+                        	System.out.println("Enter attendance details " );
+                            System.out.println();
+                            System.out.println("Enter Week");
+                             week=sc.nextInt();
+                            System.out.println("Enter date (e.g., 20-2-2024):");
+                             date = sc.next();
+                            System.out.println("Enter day (e.g., TUESDAY):");
+                             dayName = sc.next();
+                            day = Days.valueOf(dayName); //Convert input day name to enum 
+                            System.out.println("Enter status (H/A/C/P):");
+                            status = sc.next();
+                            System.out.println("Enter duration:");
+                             duration = sc.nextInt();           
+                            cmpe326.addAttendance(week, date, day, status, duration);
+                            break;
+                        default:
+                            System.out.println("Invalid Course Name");
+                            break;
+                    }
+                    break;
+                    
+                case "report":
+                    System.out.println("Which Course You Want To Display Attendance Report ?");
+                    String reportCourse = sc.nextLine().trim().toLowerCase(); // Read and trim input
+                    
+                    switch (reportCourse) {
+                        case "ada 407":
+                        	ada407.readAttendanceFromFile();
+                   	     System.out.println(ada407);
+                            ada407.printRecords();
+                            break;
+                        case "tedu 400":
+                        	tedu400.readTedu400();
+                        	System.out.println(tedu400);
+                        	tedu400.printTedu400Records();
+                            break;
+                        case "ada 423":
+                        	ada423.readAttendanceFromFile();
+                   	     System.out.println(ada423);
+                   	     ada423.printRecords();
+                            break;
+                        case "cmpe 326":
+                        	cmpe326.readAttendanceFromFile();
+                   	     System.out.println(cmpe326);
+                   	     cmpe326.printRecords();
+                            break;
+                        default:
+                            System.out.println("Invalid Course Name");
+                            break;
+                    }
+                    break;
+                    
+                case "exit":
+                    System.out.println("Program Terminated...");
+                    return; // Exit the main method, terminating the program
+                    
+                default:
+                    System.out.println("Invalid Command");
+                    break;
             }
-            sc.nextLine(); 
         }
-        break;
-    	case "ada 423":
-    		 while (true) {
-    		System.out.println("Enter attendance details " );
-            System.out.println();
-            System.out.println("Enter Week");
-             week=sc.nextInt();
-            System.out.println("Enter date (e.g., 20-2-2024):");
-             date = sc.next();
-            System.out.println("Enter day (e.g., TUESDAY):");
-             dayName = sc.next();
-            day = Days.valueOf(dayName); //Convert input day name to enum 
-            System.out.println("Enter status (H/A/C/P):");
-            status = sc.next();
-            System.out.println("Enter duration:");
-             duration = sc.nextInt();           
-            ada423.addAttendance(week, date, day, status, duration);
-            System.out.println("Do you want to add more attendance for ADA 423? (yes/no)");
-             moreAttendance = sc.next().toLowerCase();
-            if (!moreAttendance.equals("yes")) {
-                break;
-            }
-            sc.nextLine(); // Consume newline
-        }
-        break;
-    	case "cmpe 326":
-    		while(true) {
-    		System.out.println("Enter attendance details " );
-            System.out.println();
-            System.out.println("Enter Week");
-             week=sc.nextInt();
-            System.out.println("Enter date (e.g., 20-2-2024):");
-             date = sc.next();
-            System.out.println("Enter day (e.g., TUESDAY):");
-             dayName = sc.next();
-            day = Days.valueOf(dayName); //Convert input day name to enum 
-            System.out.println("Enter status (H/A/C/P):");
-            status = sc.next();
-            System.out.println("Enter duration:");
-             duration = sc.nextInt();           
-            cmpe326.addAttendance(week, date, day, status, duration);
-            System.out.println("Do you want to add more attendance for CMPE 326? (yes/no)");
-             moreAttendance = sc.next().toLowerCase();
-            if (!moreAttendance.equals("yes")) {
-                break;
-            }
-            sc.nextLine(); 
-        }
-        break;
-    		default:
-    			System.out.println("Invalid Course Name");
-    		return;	
-    	}
-    	break;
-    	case "report":
-    		System.out.println("Which Course You Want To Display Attendance Report ?");
-        	 courseName=sc.nextLine();
-        	System.out.println("");
-        	switch(courseName) {
-        	case "ada 407":
-        		ada407.readAttendanceFromFile();
-        	     System.out.println(ada407);
-                 ada407.printRecords();
-        	     break;
-        	case "ada 423":
-        		ada423.readAttendanceFromFile();
-        	     System.out.println(ada423);
-        	     ada423.printRecords();
-        	     break;
-        	case "cmpe 326":
-        		cmpe326.readAttendanceFromFile();
-        	     System.out.println(cmpe326);
-        	     cmpe326.printRecords();
-        	     break;
-        	default:
-    			System.out.println("Invalid Course Name");
-    		return;	
-    	}
-        	break;       	
-        case "exit":
-        System.out.println("Program Terminated...");
-        	return;	
-        default:
-        	System.out.println("Invalid Command");
-        }		
-	}
+    }
 }
